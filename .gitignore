@@ -3,3 +3,9 @@
 ################################################################################
 
 /Debug
+/ipch/TESTRAILSWINSERVICE-a7805f09
+/TestRailsWinService/Debug
+/rails-windows-service.VC.db
+/rails-windows-service.VC.VC.opendb
+/.vs/rails-windows-service/v14
+/CppWindowsService/Win32/Debug
