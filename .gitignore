@@ -9,3 +9,5 @@
 /rails-windows-service.VC.VC.opendb
 /.vs/rails-windows-service/v14
 /CppWindowsService/Win32/Debug
+/TestRailsWinService/TestRailsWinService.aps
+/TestRailsWinService/out.log

@@ -3,13 +3,19 @@
 
 #include "stdafx.h"
 #include "TestRailsWinService.h"
+#include "..\CppWindowsService\ProcessHelper.h"
 
 #define MAX_LOADSTRING 100
+
+#include "..\CppWindowsService\ProcessHelper.cpp"
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+
+WCHAR szCmdLine[MAX_PATH];            // 
+WCHAR *szCurrentDirectory = L".";            // 
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -25,7 +31,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Place code here.
+	wcscpy(szCmdLine, L"C:\\Windows\\System32\\PING.EXE 127.0.0.1 -t");	//CmdLine argument must be writable
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -98,7 +104,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, 400, 200, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -137,6 +143,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
+			case ID_PROCESS_START:
+				ProcessHelper::CreateConsoleProcess(szCmdLine, szCurrentDirectory);
+				break;
+			case ID_PROCESS_CTRL_C:
+				ProcessHelper::SendCtrlC();
+				break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }

@@ -165,20 +165,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CppWindowsService.cpp" />
+    <ClCompile Include="ProcessHelper.cpp" />
     <ClCompile Include="SampleService.cpp" />
     <ClCompile Include="ServiceBase.cpp" />
     <ClCompile Include="ServiceInstaller.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ProcessHelper.h" />
     <ClInclude Include="SampleService.h" />
     <ClInclude Include="ServiceBase.h" />
     <ClInclude Include="ServiceInstaller.h" />
     <ClInclude Include="ThreadPool.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Documentation\ReadMe.htm">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
