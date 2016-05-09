@@ -31,7 +31,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-	wcscpy(szCmdLine, L"C:\\Windows\\System32\\PING.EXE 127.0.0.1 -t");	//CmdLine argument must be writable
+	//wcscpy(szCmdLine, L"C:\\Windows\\System32\\PING.EXE 127.0.0.1 -t");	//CmdLine argument must be writable
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -144,7 +144,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DestroyWindow(hWnd);
                 break;
 			case ID_PROCESS_START:
-				ProcessHelper::CreateConsoleProcess(szCmdLine, szCurrentDirectory);
+				ProcessHelper::CreateConsoleProcess();
 				break;
 			case ID_PROCESS_CTRL_C:
 				ProcessHelper::SendCtrlC();

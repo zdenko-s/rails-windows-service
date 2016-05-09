@@ -1,11 +1,33 @@
 #include "ProcessHelper.h"
 
+#define INI_FILE_SECTION L"Command"
+#define CMD_LINE L"CommandLine"
+#define WORKING_DIR L"WorkingDir"
+
 namespace ProcessHelper
 {
 
 	PROCESS_INFORMATION pi;
-	const char *msg = "Message\n";
 	HANDLE hOutFile = INVALID_HANDLE_VALUE;
+
+	DWORD CreateConsoleProcess()
+	{
+		// Read settings from .ini file
+		wchar_t fileName[MAX_PATH];
+		wchar_t cmdLine[MAX_PATH];
+		wchar_t workingDir[MAX_PATH];
+		workingDir[0] = cmdLine[0] = 0;
+		if (GetModuleFileName(nullptr, fileName, MAX_PATH))
+		{
+			// Append .ini to the module name
+			wcscat(fileName, L".ini");
+			//WritePrivateProfileString(L"Rails", L"key", L"value", fileName);
+			GetPrivateProfileString(INI_FILE_SECTION, CMD_LINE, nullptr, cmdLine, MAX_PATH, fileName);
+			GetPrivateProfileString(INI_FILE_SECTION, WORKING_DIR, nullptr, workingDir, MAX_PATH, fileName);
+			CreateConsoleProcess(cmdLine, workingDir);
+		}
+		return 0;
+	}
 
 	int CreateConsoleProcess(WCHAR* cmdLine, WCHAR* workingDir)
 	{
@@ -38,7 +60,6 @@ namespace ProcessHelper
 
 		if (ret)
 		{
-			//WaitForSingleObject(pi.hProcess, 10000);
 			CloseHandle(pi.hProcess);
 			CloseHandle(pi.hThread);
 			return 0;

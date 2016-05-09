@@ -162,6 +162,9 @@
     <Image Include="small.ico" />
     <Image Include="TestRailsWinService.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="sttings.ini" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
