@@ -37,8 +37,6 @@ protected:
     virtual void OnStart(DWORD dwArgc, PWSTR *pszArgv);
     virtual void OnStop();
 
-    void ServiceWorkerThread(void);
-
 private:
 
 };

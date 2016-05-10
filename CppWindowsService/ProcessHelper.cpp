@@ -31,19 +31,16 @@ namespace ProcessHelper
 
 	int CreateConsoleProcess(WCHAR* cmdLine, WCHAR* workingDir)
 	{
+		//Create inheritable STD handles
 		SECURITY_ATTRIBUTES sa;
 		sa.nLength = sizeof(sa);
 		sa.lpSecurityDescriptor = NULL;
 		sa.bInheritHandle = TRUE;
-
-		hOutFile = CreateFile(L"out.log",
-			FILE_APPEND_DATA,
-			FILE_SHARE_WRITE | FILE_SHARE_READ,
-			&sa,
-			OPEN_ALWAYS,
-			FILE_ATTRIBUTE_NORMAL,
-			NULL);
-
+		// Create file where Process STDOUT will be redirected
+		hOutFile = CreateFile(L"stdout.log",
+			FILE_APPEND_DATA, FILE_SHARE_WRITE | FILE_SHARE_READ, &sa,
+			OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		// Startup info: No window, Use std handles
 		STARTUPINFO si;
 		BOOL ret = FALSE;
 		DWORD flags = CREATE_NO_WINDOW;
@@ -55,9 +52,8 @@ namespace ProcessHelper
 		si.hStdInput = NULL;
 		si.hStdError = hOutFile;
 		si.hStdOutput = hOutFile;
-
+		// Process ceation
 		ret = CreateProcess(NULL, cmdLine, NULL, NULL, TRUE, flags, NULL, workingDir, &si, &pi);
-
 		if (ret)
 		{
 			CloseHandle(pi.hProcess);

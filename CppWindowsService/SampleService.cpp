@@ -22,6 +22,7 @@
 #include "ThreadPool.h"
 #pragma endregion
 
+#include "ProcessHelper.h"
 
 CSampleService::CSampleService(PWSTR pszServiceName, 
                                BOOL fCanStop, 
@@ -62,25 +63,13 @@ CSampleService::~CSampleService(void)
 //   other solution is to spawn a new thread to perform the main service 
 //   functions, which is demonstrated in this code sample.
 //
-void CSampleService::OnStart(DWORD dwArgc, LPWSTR *lpszArgv)
+void CSampleService::OnStart(DWORD dwArgc, PWSTR *lpszArgv)
 {
     // Log a service start message to the Application log.
-    WriteEventLogEntry(L"CppWindowsService in OnStart", 
-        EVENTLOG_INFORMATION_TYPE);
-
+    WriteEventLogEntry(L"CppWindowsService in OnStart", EVENTLOG_INFORMATION_TYPE);
+	// Launch external process
+	ProcessHelper::CreateConsoleProcess();
 }
-
-
-//
-//   FUNCTION: CSampleService::ServiceWorkerThread(void)
-//
-//   PURPOSE: The method performs the main function of the service. It runs 
-//   on a thread pool worker thread.
-//
-void CSampleService::ServiceWorkerThread(void)
-{
-}
-
 
 //
 //   FUNCTION: CSampleService::OnStop(void)
@@ -99,5 +88,5 @@ void CSampleService::OnStop()
     // Log a service stop message to the Application log.
     WriteEventLogEntry(L"CppWindowsService in OnStop", 
         EVENTLOG_INFORMATION_TYPE);
-
+	ProcessHelper::SendCtrlC();
 }
